@@ -1,0 +1,16 @@
+{
+  "name": "shooter",
+  "version": "1.0.0",
+  "description": "Small shooter game made with javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "gamedev"
+  ],
+  "author": "El MoyArto",
+  "license": "ISC"
+}
