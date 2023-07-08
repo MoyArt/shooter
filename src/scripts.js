@@ -14,6 +14,8 @@ window.addEventListener('load', function () {
           this.game.keys.indexOf(e.key) === -1
         ) {
           this.game.keys.push(e.key);
+        } else if (e.key === ' ') {
+          this.game.player.shootTop();
         }
         console.log(this.game.keys);
       });
@@ -25,7 +27,27 @@ window.addEventListener('load', function () {
       });
     }
   }
-  class Projectile {}
+  class Projectile {
+    constructor(game, x, y) {
+      this.game = game;
+      this.x = x;
+      this.y = y;
+      this.width = 10;
+      this.height = 3;
+      this.speed = 3;
+      this.markedForDeletion = false;
+    }
+    update() {
+      this.x += this.speed;
+      if (this.x > this.game.width * 0.8) {
+        this.markedForDeletion = true;
+      }
+    }
+    draw(context) {
+      context.fillStyle = 'yellow';
+      context.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }
   class Player {
     constructor(game) {
       this.game = game;
@@ -35,6 +57,7 @@ window.addEventListener('load', function () {
       this.y = 100;
       this.speedY = 0;
       this.maxSpeed = 5;
+      this.projectiles = [];
     }
     update() {
       if (this.game.keys.includes('ArrowUp')) {
@@ -45,9 +68,29 @@ window.addEventListener('load', function () {
         this.speedY = 0;
       }
       this.y += this.speedY;
+      // Handle Projectiles
+      this.projectiles.forEach((projectile) => {
+        projectile.update();
+      });
+      this.projectiles = this.projectiles.filter(
+        (projectile) => !projectile.markedForDeletion
+      );
     }
     draw(context) {
+      context.fillStyle = 'pink';
       context.fillRect(this.x, this.y, this.width, this.height);
+      this.projectiles.forEach((projectile) => {
+        projectile.draw(context);
+      });
+    }
+    shootTop() {
+      if (this.game.ammo > 0) {
+        this.projectiles.push(
+          new Projectile(this.game, this.x + 80, this.y + 30)
+        );
+        this.game.ammo--;
+        console.log(this.projectiles);
+      }
     }
   }
   class Enemy {}
@@ -61,6 +104,7 @@ window.addEventListener('load', function () {
       this.player = new Player(this);
       this.input = new InputHandler(this);
       this.keys = [];
+      this.ammo = 20;
     }
     update() {
       this.player.update();
