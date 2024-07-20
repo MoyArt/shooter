@@ -133,6 +133,7 @@ window.addEventListener('load', function () {
       this.fontFamily = 'Helvetica';
       this.color = 'white';
     }
+
     draw(context) {
       context.save();
       context.fillStyle = this.color;
@@ -140,15 +141,19 @@ window.addEventListener('load', function () {
       context.shadowOffsetY = 2;
       context.shadowColor = 'black';
       context.font = this.fontSize + 'px' + this.fontFamily;
+
       // score
       context.fillText(`Score: ${this.game.score}`, 20, 40);
+
       // ammo
       for (let i = 0; i < this.game.ammo; i++) {
         context.fillRect(20 + 5 * i, 50, 3, 20);
       }
+
       // Timer
       const formattedTime = (this.game.gameTime * 0.001).toFixed(1);
       context.fillText(`Timer: ${formattedTime}`, 20, 100);
+
       // Game Over Message
       if (this.game.gameOver) {
         context.textAlign = 'center';
@@ -177,6 +182,7 @@ window.addEventListener('load', function () {
       context.restore();
     }
   }
+
   class Game {
     constructor(width, height) {
       this.width = width;
@@ -198,6 +204,7 @@ window.addEventListener('load', function () {
       this.gameTime = 0;
       this.timeLimit = 5000;
     }
+
     update(deltaTime) {
       if (!this.gameOver) {
         this.gameTime += deltaTime;
@@ -243,6 +250,7 @@ window.addEventListener('load', function () {
         this.enemyTimer += deltaTime;
       }
     }
+
     draw(context) {
       this.player.draw(context);
       this.ui.draw(context);
@@ -250,9 +258,11 @@ window.addEventListener('load', function () {
         enemy.draw(context);
       });
     }
+
     addEnemy() {
       this.enemies.push(new Angler1(this));
     }
+
     checkCollision(rect1, rect2) {
       return (
         rect1.x < rect2.x + rect2.width &&
@@ -262,8 +272,10 @@ window.addEventListener('load', function () {
       );
     }
   }
+
   const game = new Game(canvas.width, canvas.height);
   let lastTime = 0;
+
   //animation loop
   function animate(timeStamp) {
     const deltaTime = timeStamp - lastTime;
