@@ -2,7 +2,7 @@ window.addEventListener('load', function () {
   // canvas setup
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
-  canvas.width = 700;
+  canvas.width = 1000;
   canvas.height = 500;
 
   class InputHandler {
@@ -283,7 +283,7 @@ window.addEventListener('load', function () {
       this.y = Math.random() * (this.game.height * 0.95 - this.height);
       this.image = document.getElementById('angler2');
       this.frameY = Math.floor(Math.random() * 2);
-      this.lives = 2;
+      this.lives = 6;
       this.score = this.lives;
     }
   }
