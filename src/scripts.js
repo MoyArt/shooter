@@ -2,7 +2,7 @@ window.addEventListener('load', function () {
   // canvas setup
   const canvas = document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
-  canvas.width = 700;
+  canvas.width = 1000;
   canvas.height = 500;
 
   class InputHandler {
@@ -283,7 +283,7 @@ window.addEventListener('load', function () {
       this.y = Math.random() * (this.game.height * 0.95 - this.height);
       this.image = document.getElementById('angler2');
       this.frameY = Math.floor(Math.random() * 2);
-      this.lives = 2;
+      this.lives = 6;
       this.score = this.lives;
     }
   }
@@ -330,6 +330,36 @@ window.addEventListener('load', function () {
       this.score = this.lives;
       this.type = 'drone';
       this.speedX = Math.random() * -4.2 - 0.5;
+    }
+  }
+
+  class BulbWhale extends Enemy {
+    constructor(game) {
+      super(game);
+      this.width = 270;
+      this.height = 219;
+      this.y = Math.random() * (this.game.height * 0.95 - this.height);
+      this.image = document.getElementById('bulbwhale');
+      this.frameY = Math.floor(Math.random() * 2);
+      this.lives = 20;
+      this.score = this.lives;
+      this.type = 'bulbwhale';
+      this.speedX = Math.random() * -1.2 - 0.2;
+    }
+  }
+
+  class MoonFish extends Enemy {
+    constructor(game) {
+      super(game);
+      this.width = 227;
+      this.height = 240;
+      this.y = Math.random() * (this.game.height * 0.95 - this.height);
+      this.image = document.getElementById('moonfish');
+      this.frameY = Math.floor(Math.random() * 2);
+      this.lives = 10;
+      this.score = this.lives;
+      this.type = 'moon';
+      this.speedX = Math.random() * -1.2 - 2;
     }
   }
 
@@ -583,6 +613,9 @@ window.addEventListener('load', function () {
               }
               enemy.markedForDeletion = true;
               this.addExplosion(enemy);
+              if (enemy.type === 'moon') {
+                this.player.enterPowerUp();
+              }
               if (enemy.type === 'hive') {
                 for (let i = 0; i < 5; i++) {
                   this.enemies.push(
@@ -631,6 +664,10 @@ window.addEventListener('load', function () {
         this.enemies.push(new Angler2(this));
       } else if (randomize < 0.7) {
         this.enemies.push(new HiveWhale(this));
+      } else if (randomize < 0.8) {
+        this.enemies.push(new BulbWhale(this));
+      } else if (randomize < 0.9) {
+        this.enemies.push(new MoonFish(this));
       } else {
         this.enemies.push(new LuckyFish(this));
       }
