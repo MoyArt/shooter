@@ -10,6 +10,9 @@ window.addEventListener('load', function () {
       this.game = game;
       function triggerKeyEvent(keyState, key) {
         // Create keyboard event
+        console.log(
+          `Triggering triggerKeyEvent: keyState${keyState} - key ${key}`
+        );
         let event = new KeyboardEvent(keyState, {
           bubbles: true,
           cancelable: true,
@@ -21,6 +24,7 @@ window.addEventListener('load', function () {
       }
 
       const captureMovement = (e) => {
+        console.log(e.key);
         if (
           (e.key === 'ArrowUp' || e.key === 'ArrowDown') &&
           this.game.keys.indexOf(e.key) === -1
@@ -54,24 +58,61 @@ window.addEventListener('load', function () {
        * we capture mousedown to mimic keydown
        * and mouseup to trigger keyup
        */
+      function addControlListeners(button, key) {
+        console.log(`Inside addControlListener, Key Pressed: ${key}`);
+        button.addEventListener('mousedown', () =>
+          triggerKeyEvent('keydown', key)
+        );
+        button.addEventListener('mouseup', () => triggerKeyEvent('keyup', key));
+        button.addEventListener('touchstart', (e) => {
+          e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
+          triggerKeyEvent('keydown', key);
+        });
+        button.addEventListener('touchend', (e) => {
+          e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
+          triggerKeyEvent('keyup', key);
+        });
+      }
+
+      addControlListeners(buttonUp, 'ArrowUp');
+      addControlListeners(buttonDown, 'ArrowDown');
+      addControlListeners(buttonSpace, ' ');
+      /*
       buttonUp.addEventListener('mousedown', () =>
         triggerKeyEvent('keydown', 'ArrowUp')
-      );
-      buttonDown.addEventListener('mousedown', () =>
-        triggerKeyEvent('keydown', 'ArrowDown')
-      );
-      buttonSpace.addEventListener('mousedown', () =>
-        triggerKeyEvent('keydown', ' ')
       );
       buttonUp.addEventListener('mouseup', () =>
         triggerKeyEvent('keyup', 'ArrowUp')
       );
+      buttonUp.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
+        triggerKeyEvent('keydown', 'ArrowUp');
+      });
+      buttonUp.addEventListener('touchend', (e) => {
+        e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
+        triggerKeyEvent('keyup', 'ArrowUp');
+      });
+      buttonDown.addEventListener('mousedown', () =>
+        triggerKeyEvent('keydown', 'ArrowDown')
+      );
       buttonDown.addEventListener('mouseup', () =>
         triggerKeyEvent('keyup', 'ArrowDown')
+      );
+      buttonDown.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
+        triggerKeyEvent('keydown', 'ArrowDown');
+      });
+      buttonDown.addEventListener('touchend', (e) => {
+        e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
+        triggerKeyEvent('keyup', 'ArrowDown');
+      });
+      buttonSpace.addEventListener('mousedown', () =>
+        triggerKeyEvent('keydown', ' ')
       );
       buttonSpace.addEventListener('mouseup', () =>
         triggerKeyEvent('keyup', ' ')
       );
+      */
     }
   }
 
@@ -174,6 +215,7 @@ window.addEventListener('load', function () {
     }
     update(deltaTime) {
       if (this.game.keys.includes('ArrowUp')) {
+        console.log('deltaTime');
         this.speedY = -this.maxSpeed;
       } else if (this.game.keys.includes('ArrowDown')) {
         this.speedY = this.maxSpeed;
