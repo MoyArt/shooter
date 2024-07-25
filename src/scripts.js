@@ -8,7 +8,19 @@ window.addEventListener('load', function () {
   class InputHandler {
     constructor(game) {
       this.game = game;
-      window.addEventListener('keydown', (e) => {
+      function triggerKeyEvent(keyState, key) {
+        // Create keyboard event
+        let event = new KeyboardEvent(keyState, {
+          bubbles: true,
+          cancelable: true,
+          key,
+          which: key,
+        });
+        // Dispatching the event
+        document.dispatchEvent(event);
+      }
+
+      const captureMovement = (e) => {
         if (
           (e.key === 'ArrowUp' || e.key === 'ArrowDown') &&
           this.game.keys.indexOf(e.key) === -1
@@ -20,13 +32,46 @@ window.addEventListener('load', function () {
           this.game.debug = !this.game.debug;
         }
         console.log(this.game.keys);
-      });
-      window.addEventListener('keyup', (e) => {
+      };
+
+      const cleanMovement = (e) => {
         if (this.game.keys.indexOf(e.key) > -1) {
           this.game.keys.splice(this.game.keys.indexOf(e.key), 1);
         }
         console.log(this.game.keys);
-      });
+      };
+
+      window.addEventListener('keydown', captureMovement);
+      window.addEventListener('keyup', cleanMovement);
+
+      // Getting the reference of the buttons
+      const buttonUp = document.getElementById('up');
+      const buttonDown = document.getElementById('down');
+      const buttonSpace = document.getElementById('space');
+
+      /**
+       * Adding the event listeners to the buttons
+       * we capture mousedown to mimic keydown
+       * and mouseup to trigger keyup
+       */
+      buttonUp.addEventListener('mousedown', () =>
+        triggerKeyEvent('keydown', 'ArrowUp')
+      );
+      buttonDown.addEventListener('mousedown', () =>
+        triggerKeyEvent('keydown', 'ArrowDown')
+      );
+      buttonSpace.addEventListener('mousedown', () =>
+        triggerKeyEvent('keydown', ' ')
+      );
+      buttonUp.addEventListener('mouseup', () =>
+        triggerKeyEvent('keyup', 'ArrowUp')
+      );
+      buttonDown.addEventListener('mouseup', () =>
+        triggerKeyEvent('keyup', 'ArrowDown')
+      );
+      buttonSpace.addEventListener('mouseup', () =>
+        triggerKeyEvent('keyup', ' ')
+      );
     }
   }
 
