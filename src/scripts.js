@@ -77,42 +77,6 @@ window.addEventListener('load', function () {
       addControlListeners(buttonUp, 'ArrowUp');
       addControlListeners(buttonDown, 'ArrowDown');
       addControlListeners(buttonSpace, ' ');
-      /*
-      buttonUp.addEventListener('mousedown', () =>
-        triggerKeyEvent('keydown', 'ArrowUp')
-      );
-      buttonUp.addEventListener('mouseup', () =>
-        triggerKeyEvent('keyup', 'ArrowUp')
-      );
-      buttonUp.addEventListener('touchstart', (e) => {
-        e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
-        triggerKeyEvent('keydown', 'ArrowUp');
-      });
-      buttonUp.addEventListener('touchend', (e) => {
-        e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
-        triggerKeyEvent('keyup', 'ArrowUp');
-      });
-      buttonDown.addEventListener('mousedown', () =>
-        triggerKeyEvent('keydown', 'ArrowDown')
-      );
-      buttonDown.addEventListener('mouseup', () =>
-        triggerKeyEvent('keyup', 'ArrowDown')
-      );
-      buttonDown.addEventListener('touchstart', (e) => {
-        e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
-        triggerKeyEvent('keydown', 'ArrowDown');
-      });
-      buttonDown.addEventListener('touchend', (e) => {
-        e.preventDefault(); // Prevenir el comportamiento por defecto en móviles
-        triggerKeyEvent('keyup', 'ArrowDown');
-      });
-      buttonSpace.addEventListener('mousedown', () =>
-        triggerKeyEvent('keydown', ' ')
-      );
-      buttonSpace.addEventListener('mouseup', () =>
-        triggerKeyEvent('keyup', ' ')
-      );
-      */
     }
   }
 
